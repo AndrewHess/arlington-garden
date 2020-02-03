@@ -1,0 +1,60 @@
+from flask import Flask, render_template, request, session, redirect, url_for, flash
+import os, csv, mysql.connector, hashlib, uuid
+from datetime import datetime
+
+app = Flask(__name__)
+app.secret_key = os.urandom(32)
+
+#---------HOME PAGE--------------
+@app.route('/')
+def root():
+    # if 'username' in session:
+    #     return redirect(url_for('dashboard')
+    return render_template('survey.html')
+
+
+
+#------------LOGIN----------------
+class Admin_Login:
+    username = 'admin'
+    pass_key  = '2b8dbbd065f8f91a3852557d3cf32bed9f1802dad369f3589eceb2e571d20ee7:daf84f22f8f24759ac990d897024a740' 
+
+    def hash_password(self, p, key):
+        return hashlib.sha256(key.encode() + p.encode()).hexdigest()
+
+    # Used this to create the pass_key above
+    def create_pass_key_pair(password):
+        key = uuid.uuid4().hex
+        self.hash_password(password, key) + ':' + key
+    
+    def check_password(self, input_password):
+        password,key = self.pass_key.split(':')
+        return password == self.hash_password(input_password, key)
+
+    def check_username(self, input_username):
+        return input_username == self.username
+
+# For now, only have one admin account so make the password "admin"
+
+@app.route('/authenticate', methods = ['POST'])
+def authenticate():
+    input_username = request.form['username']
+    input_password = request.form['password']
+    this_admin = Admin_Login()
+
+    if (this_admin.check_password(input_password) and
+        this_admin.check_username(input_username)):
+        flash('Login Successful')
+        session['username'] = input_username
+        #return redirect(url_for('dashboard'))
+
+    else:
+        flash('Invalid Login Information')
+    return redirect('/')
+
+#--------------RUNNING APP--------------
+if __name__ == '__main__':
+    app.debug = True
+    app.run()
+
+

@@ -6,6 +6,19 @@
 </head>
 
 <body>
+        <h2>Admin Login</h2>
+	{% set messages = get_flashed_messages() %}
+	{% for message in messages %}
+	<h4> {{message}} </h4>
+	{% endfor %}
+	
+	<form method="post" action="/authenticate">
+	  Username: <input type="text" name="username" required><br><br>
+	  Password: <input type="password" name="password" required><br>
+	  <input type="submit" value="submit">
+	</form> <br> <br>
+	
+	<h2>Survey</h2>
 	Is this your first time visiting Arlington Garden?<br>
 	<input type="radio" name="first_time" value="yes">Yes
 	<input type="radio" name="first_time" value="no" >No<br>

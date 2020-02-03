@@ -1,0 +1,12 @@
+from flask import Flask, render_template, request, session, redirect, url_for, flash
+import os, csv, mysql.connector, hashlib, uuid
+from datetime import datetime
+
+#---------HOME PAGE--------------
+@app.route("/")
+def root():
+    return render_template("survey.html")
+
+
+
+#------------LOGIN----------------
