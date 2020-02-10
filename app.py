@@ -9,13 +9,11 @@ app.secret_key = os.urandom(32)
 #---------HOME PAGE--------------
 @app.route('/')
 def root():
-    try:
-        qr_id = request.args.get('qr_id')
-        session['qr_id'] = qr_id
+    qr_id = request.args.get('qr_id')
+    if qr_id is None:
+        qr_id = '0'
+    session['qr_id'] = qr_id
         
-    except:
-        session['qr_id'] = 0
-        print('no qr id')
     # if 'username' in session:
     #     return redirect(url_for('dashboard')
     return render_template('survey.html')
@@ -85,7 +83,6 @@ def data():
     zip_code = request.form['zip']
     income = request.form['income']
     ethnicity = ' '.join(request.form.getlist('ethnicity'))
-
     qr_id = session['qr_id']
     
     
@@ -93,12 +90,9 @@ def data():
                 disap, rating, water, knew_about, heard_about,
                 post_social, platform_social, topic_interests, get_involved, gender,
                 adult_ages, child_ages, zip_code,
-                income, ethnicity)
+                income, ethnicity, qr_id)
 
-    print("inserting row...")
     conn.insert_row("visitor_info_v2", all_data)
-    print("inserted row!")
-
     
     
     return redirect('/')
