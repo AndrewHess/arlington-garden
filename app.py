@@ -82,7 +82,10 @@ def data():
                 adult_ages, child_ages, zip_code,
                 income, ethnicity)
 
-    conn.insert_row("demo", all_data)  
+    conn.insert_row("demo", all_data)
+
+    
+    return redirect('/')
     
     
     
