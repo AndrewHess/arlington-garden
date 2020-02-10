@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 import os, csv, mysql.connector, hashlib, uuid
+import connector as c
 from datetime import datetime
 
 app = Flask(__name__)
@@ -51,6 +52,42 @@ def authenticate():
     else:
         flash('Invalid Login Information')
     return redirect('/')
+
+
+#----------------SUBMITTING THE FORM--------
+@app.route('/data', methods = ['POST'])
+def data():
+    conn = c.Connector()
+
+    # fetching form data
+    first_time = request.form['first_time']
+    attend_reason = request.form['attend_reason']
+    stood_out = request.form['stood_out']
+    disap = request.form['disappointing']
+    rating = request.form['rating']
+    water = request.form['water_conserving']
+    knew_about = request.form['knew_about']
+    post_social = request.form['post_social']
+    get_involved = request.form['get_involved']
+    gender = request.form['gender']
+    adult_ages = request.form['adult ages']
+    child_ages = request.form['child_ages']
+    zip_code = request.form['zip']
+    income = request.form['income']
+    ethnicity = request.form['ethnicity']
+
+    all_data = (first_time, attend_reason, stood_out,
+                disap, rating, water, knew_about,
+                post_social, get_involved, gender
+                adult_ages, child_ages, zip_code,
+                income, ethnicity)
+
+    conn.insert_row("demo", all_data)  
+    
+    
+    
+
+
 
 #--------------RUNNING APP--------------
 if __name__ == '__main__':

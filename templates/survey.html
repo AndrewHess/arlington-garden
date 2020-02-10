@@ -19,6 +19,7 @@
 	</form> <br> <br>
 	
 	<h2>Survey</h2>
+	<form method="post" action="/data">
 	Is this your first time visiting Arlington Garden?<br>
 	<input type="radio" name="first_time" value="yes">Yes
 	<input type="radio" name="first_time" value="no" >No<br>
@@ -61,7 +62,7 @@
 	Please describe anything that was frustrating or disappointing about your visit.<br>
 	<textarea name="disappointing"></textarea><br>
 
-	How would you rate your experience in Arlingtone Garden today? (1 is poor, 10 is excellent)<br>
+	How would you rate your experience in Arlington Garden today? (1 is poor, 10 is excellent)<br>
 	<select name="rating">
 		<option value="select">Select</option>
 		<option value=1>1</option>
@@ -106,8 +107,8 @@
 		Other: <input type="text" name=how_heard_about_other><br>
 
 	Did you post to social media during your visit (or will you)?<br>
-	<input type="radio" name=post_social value="yes">Yes
-	<input type="radio" name=post_social value="no">No<br>
+	<input type="radio" name="post_social" value="yes">Yes
+	<input type="radio" name="post_social" value="no">No<br>
 
 	If YES, what platform of social media did/will you use?<br>
 	<textarea name=social_platform></textarea><br>
@@ -116,25 +117,25 @@
 	<textarea name=topic_interests></textarea><br>
 
 	Please select the ways in which you would like to be more involved with Arlington Garden. (Check all that apply)<br>
-	<input type="checkbox" name=get_involved value="newsletter">
+	<input type="checkbox" name="get_involved" value="newsletter">
 		Signing up for the Arlington Garden newsletter<br>
 	<input type="checkbox" name=get_involved value="donation">
 		Making a donation<br>
-	<input type="checkbox" name=get_involved value="photography_permit">
+	<input type="checkbox" name="get_involved" value="photography_permit">
 		Supporting the garden by purchasing a photography permit<br>
-	<input type="checkbox" name=get_involved value="volunteer">
+	<input type="checkbox" name="get_involved" value="volunteer">
 		Becoming a garden volunteer<br>
-	<input type="checkbox" name=get_involved value="marmalade">
+	<input type="checkbox" name="get_involved" value="marmalade">
 		Supporting the garden by purchasing Arlington Garden marmalade<br>
-	<input type="checkbox" name=get_involved value="facebook">
+	<input type="checkbox" name="get_involved" value="facebook">
 		Following us on Facebook<br>
-	<input type="checkbox" name=get_involved value="other">
-		Other: <input type="text" name=get_involved_other><br>
+	<input type="checkbox" name="get_involved" value="other">
+		Other: <input type="text" name="get_involved" _other><br>
 
 	What is your gender?<br>
-	<input type="radio" name="gener" value="male">Male
-	<input type="radio" name="gener" value="female">Female
-	<input type="radio" name="gener" value="refuse">Prefer not to answer<br>
+	<input type="radio" name="gender" value="male">Male
+	<input type="radio" name="gender" value="female">Female
+	<input type="radio" name="gender" value="refuse">Prefer not to answer<br>
 
 	What are the ages of the adults with you?<br>
 	<input type="text" name="adult_ages"><br>
@@ -170,7 +171,8 @@
 		Native American/Alaskan Native<br>
 	<input type="checkbox" name="ethnicity" value="other">
 		Other: <input type="text" name="ethnicity_other"><br>
-
+	<input type="submit" value="submit">
+	</form>
 </body>
 
 </html>
