@@ -61,28 +61,33 @@ def data():
 
     # fetching form data
     first_time = request.form['first_time']
-    attend_reason = request.form['attend_reason']
+    attend_reason = ' '.join(request.form.getlist('attend_reason'))
     stood_out = request.form['stood_out']
     disap = request.form['disappointing']
     rating = request.form['rating']
     water = request.form['water_conserving']
     knew_about = request.form['knew_about']
+    heard_about = ' '.join(request.form.getlist('how_heard_about'))
     post_social = request.form['post_social']
-    get_involved = request.form['get_involved']
+    platform_social = request.form['social_platform']
+    topic_interests = request.form['topic_interests']
+    get_involved = ' '.join(request.form.getlist('get_involved'))
     gender = request.form['gender']
-    adult_ages = request.form['adult ages']
+    adult_ages = request.form['adult_ages']
     child_ages = request.form['child_ages']
     zip_code = request.form['zip']
     income = request.form['income']
-    ethnicity = request.form['ethnicity']
+    ethnicity = ' '.join(request.form.getlist('ethnicity'))
 
     all_data = (first_time, attend_reason, stood_out,
-                disap, rating, water, knew_about,
-                post_social, get_involved, gender
+                disap, rating, water, knew_about, heard_about,
+                post_social, platform_social, topic_interests, get_involved, gender,
                 adult_ages, child_ages, zip_code,
                 income, ethnicity)
 
-    conn.insert_row("demo", all_data)
+    print("inserting row...")
+    conn.insert_row("visitor_info_v2", all_data)
+    print("inserted row!")
 
     
     return redirect('/')
