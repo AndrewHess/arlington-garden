@@ -52,11 +52,11 @@ def authenticate():
         this_admin.check_username(input_username)):
         flash('Login Successful')
         session['username'] = input_username
-        #return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard'))
 
     else:
         flash('Invalid Login Information')
-    return redirect('/')
+        return redirect('/')
 
 
 #----------------SUBMITTING THE FORM--------
@@ -98,7 +98,12 @@ def data():
     return redirect('/')
     
     
-    
+#---------------DASHBOARD----------
+@app.route('/dashboard', methods = ['GET', 'POST'])
+def dashboard():
+    return render_template('dashboard.html')
+
+
 
 
 
