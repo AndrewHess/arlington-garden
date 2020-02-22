@@ -1,0 +1,7 @@
+*~
+*.pyc
+__pycache__
+.DS_Store
+
+# Don't add the config file, for security reasons.
+config.ini
