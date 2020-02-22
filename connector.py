@@ -69,6 +69,25 @@ class Connector:
             print(error)
 
 
+    def select_count(self, table, field, field_val):
+        '''
+        Get count of number of rows in specified MySQL table
+        where field = field_val
+        '''
+        data = None
+        
+        try:
+            execute_cmd = f"SELECT COUNT(*) FROM {table} WHERE  {field} = '{field_val}'"
+            print('\n' + execute_cmd + '\n')
+            self.cursor.execute(execute_cmd)
+            data = self.cursor.fetchall()[0][0]
+            print(f'Num rows where {field}={field_val}: {data}')
+
+        except Error as e:
+            print(e)
+
+        return data
+
     def select_all_data(self, table):
         '''
         Get all data from the specified MySQL table.

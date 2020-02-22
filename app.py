@@ -14,8 +14,6 @@ def root():
         qr_id = '0'
     session['qr_id'] = qr_id
     
-    if 'username' in session:
-        return redirect(url_for('dashboard'))
     return render_template('survey.html')
                         
 
@@ -92,7 +90,7 @@ def data():
                 adult_ages, child_ages, zip_code,
                 income, ethnicity, qr_id)
 
-    conn.insert_row("visitor_info_v2", all_data)
+    conn.insert_row('visitor_info_v2', all_data)
     
     
     return redirect('/')
@@ -103,8 +101,18 @@ def data():
 def dashboard():
     if 'username' not in session:
         return redirect('/')
-                        
-    return render_template('dashboard.html')
+
+    conn = c.Connector()
+    ethnicities = ['caucasian', 'african-american', 'asian/pacific islander',
+                   'hispanic/latino/chicano', 'native american/alaskan native']
+
+    ethn_count = []
+    for e in ethnicities:
+        ethn_count.append(conn.
+                          select_count('visitor_info_v2','ethnicity', e))
+
+    print(ethn_count)
+    return render_template('dashboard.html', counts = ethn_count)
 
 
 
