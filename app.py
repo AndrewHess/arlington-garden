@@ -13,11 +13,11 @@ def root():
     if qr_id is None:
         qr_id = '0'
     session['qr_id'] = qr_id
-        
-    # if 'username' in session:
-    #     return redirect(url_for('dashboard')
+    
+    if 'username' in session:
+        return redirect(url_for('dashboard'))
     return render_template('survey.html')
-
+                        
 
 
 #------------LOGIN----------------
@@ -60,7 +60,7 @@ def authenticate():
 
 
 #----------------SUBMITTING THE FORM--------
-@app.route('/data', methods = ['POST'])
+@app.route('/data', methods = ['GET', 'POST'])
 def data():
     conn = c.Connector()
 
@@ -101,6 +101,9 @@ def data():
 #---------------DASHBOARD----------
 @app.route('/dashboard', methods = ['GET', 'POST'])
 def dashboard():
+    if 'username' not in session:
+        return redirect('/')
+                        
     return render_template('dashboard.html')
 
 
