@@ -13,15 +13,15 @@ def root():
     if qr_id is None:
         qr_id = '0'
     session['qr_id'] = qr_id
-    
+
     return render_template('survey.html')
-                        
+
 
 
 #------------LOGIN----------------
 class Admin_Login:
     username = 'admin'
-    pass_key  = '2b8dbbd065f8f91a3852557d3cf32bed9f1802dad369f3589eceb2e571d20ee7:daf84f22f8f24759ac990d897024a740' 
+    pass_key  = '2b8dbbd065f8f91a3852557d3cf32bed9f1802dad369f3589eceb2e571d20ee7:daf84f22f8f24759ac990d897024a740'
 
     def hash_password(self, p, key):
         return hashlib.sha256(key.encode() + p.encode()).hexdigest()
@@ -30,7 +30,7 @@ class Admin_Login:
     def create_pass_key_pair(password):
         key = uuid.uuid4().hex
         self.hash_password(password, key) + ':' + key
-    
+
     def check_password(self, input_password):
         password,key = self.pass_key.split(':')
         return password == self.hash_password(input_password, key)
@@ -82,8 +82,8 @@ def data():
     income = request.form['income']
     ethnicity = ' '.join(request.form.getlist('ethnicity'))
     qr_id = session['qr_id']
-    
-    
+
+
     all_data = (first_time, attend_reason, stood_out,
                 disap, rating, water, knew_about, heard_about,
                 post_social, platform_social, topic_interests, get_involved, gender,
@@ -91,11 +91,11 @@ def data():
                 income, ethnicity, qr_id)
 
     conn.insert_row('visitor_info_v2', all_data)
-    
-    
+
+
     return redirect('/')
-    
-    
+
+
 #---------------DASHBOARD----------
 @app.route('/dashboard', methods = ['GET', 'POST'])
 def dashboard():
@@ -103,6 +103,28 @@ def dashboard():
         return redirect('/')
 
     conn = c.Connector()
+    #---------------REASONS FOR VISITING----------
+    reasons = ['I am interested in learning about plants',
+                'I saw an advertisement',
+                'For rest and relaxation',
+                'To get my children away from screens',
+                'For entertainment',
+                'For a picnic',
+                'To connect with nature',
+                'For bird watching',
+                'I am visiting from out of town',
+                'I am looking for a free community resource',
+                'I wanted a family activity',
+                'For photography',
+                'To bring a child',
+                'A friend brough me']
+
+    reason_count = []
+    for r in reasons:
+        reason_count.append(conn.
+                            select_count('visitor_info_v2', 'attend_reason', r))
+
+    #---------------ETHNICITIES----------
     ethnicities = ['caucasian', 'african-american', 'asian/pacific islander',
                    'hispanic/latino/chicano', 'native american/alaskan native']
 
@@ -112,7 +134,11 @@ def dashboard():
                           select_count('visitor_info_v2','ethnicity', e))
 
     print(ethn_count)
-    return render_template('dashboard.html', counts = ethn_count)
+
+
+    return render_template('dashboard.html',
+                            counts = ethn_count,
+                            reasons = reason_count)
 
 
 
@@ -122,5 +148,3 @@ def dashboard():
 if __name__ == '__main__':
     app.debug = True
     app.run()
-
-
