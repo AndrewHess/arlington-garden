@@ -99,50 +99,66 @@ def data():
 #---------------DASHBOARD----------
 @app.route('/dashboard', methods = ['GET', 'POST'])
 def dashboard():
+
+    def collect(options, query):
+        '''
+        options = list of options from survey form that pertain to query
+        query = string
+        '''
+        count = []
+        for o in options:
+            count.append(conn.
+                        select_count('visitor_info_v2', query, o))
+        return count
+
     if 'username' not in session:
         return redirect('/')
 
     conn = c.Connector()
+    
     #---------------REASONS FOR VISITING----------
     reasons = ['I am interested in learning about plants',
-                'I saw an advertisement',
-                'For rest and relaxation',
-                'To get my children away from screens',
-                'For entertainment',
-                'For a picnic',
-                'To connect with nature',
-                'For bird watching',
-                'I am visiting from out of town',
-                'I am looking for a free community resource',
-                'I wanted a family activity',
-                'For photography',
-                'To bring a child',
-                'A friend brough me']
+               'I saw an advertisement',
+               'For rest and relaxation',
+               'To get my children away from screens',
+               'For entertainment',
+               'For a picnic',
+               'To connect with nature',
+               'For bird watching',
+               'I am visiting from out of town',
+               'I am looking for a free community resource',
+               'I wanted a family activity',
+               'For photography',
+               'To bring a child',
+               'A friend brough me']
+    reason_count = collect(reasons, 'attend_reason')
 
-    reason_count = []
-    for r in reasons:
-        reason_count.append(conn.
-                            select_count('visitor_info_v2', 'attend_reason', r))
+    #---------------HOW HEARD ABOUT----------
+    heard = ['Arlington Garden website', 'Online search', 'Newspaper',
+             'Magazine', 'Just drove by', 'Word of mouth','Social media',
+             'I live in the area and have always known about it']
+    heard_count = collect(heard, 'how_heard_about')
+
+    #---------------GETTING INVOLVED----------
+    involved = ['Signing up for the Arlington Garden newsletter',
+                'Making a donation',
+                'Supporting the garden by purchasing a photography permit',
+                'Becoming a garden volunteer',
+                'Supporting the garden by purchasing Arlington Garden marmalade',
+                'Following us on Facebook']
+    involved_count = collect(involved, 'get_involved')
 
     #---------------ETHNICITIES----------
     ethnicities = ['caucasian', 'african-american', 'asian/pacific islander',
                    'hispanic/latino/chicano', 'native american/alaskan native']
-
-    ethn_count = []
-    for e in ethnicities:
-        ethn_count.append(conn.
-                          select_count('visitor_info_v2','ethnicity', e))
-
+    ethn_count = collect(ethnicities, 'ethnicity')
     print(ethn_count)
-
 
     return render_template('dashboard.html',
                             counts = ethn_count,
-                            reasons = reason_count)
-
-
-
-
+                            reasons = reason_count,
+                            heard = heard_count,
+                            involved = involved_count)
 
 #--------------RUNNING APP--------------
 if __name__ == '__main__':
