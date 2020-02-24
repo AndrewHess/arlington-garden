@@ -3,7 +3,11 @@
 <html>
 <head>
 	<title>Visitor Survey</title>
+
+	<link rel="stylesheet" type="text/css" href="static/survey.css">
 </head>
+
+
 
 <body>
         <h2>Admin Login</h2>
@@ -12,19 +16,28 @@
 	<h4> {{message}} </h4>
 	{% endfor %}
 	
-	<form method="post" action="/authenticate">
-	  Username: <input type="text" name="username" required><br><br>
-	  Password: <input type="password" name="password" required><br>
-	  <input type="submit" value="submit">
-	</form> <br> <br>
+	<div class="form-style-5">
+		<form method="post" action="/authenticate">
+		  Username: <input type="text" name="username" required class='textfield'><br><br>
+		  Password: <input type="password" name="password" required class='textfield'><br>
+		  <input type="submit" value="login">
+		</form> <br> <br>
+	</div>
 	
 	<h2>Survey</h2>
 	<form method="post" action="/data">
-	Is this your first time visiting Arlington Garden?<br>
+	<div class='qa-group'>
+		<div class='question'>
+		Is this your first time visiting Arlington Garden?<br>
+		</div>
 	<input type="radio" name="first_time" value="yes">Yes
 	<input type="radio" name="first_time" value="no" >No<br>
+	</div>
 
-	Why did you decide to come to Arlington Garden today? (Check all that apply)<br>
+	<div class='qa-group'>
+	<div class='question'>
+		Why did you decide to come to Arlington Garden today? (Check all that apply)
+	</div>
 	<input type="checkbox" name="attend_reason" value=1>
 		I am interested in learning about plants<br>
 	<input type="checkbox" name="attend_reason" value=2>
@@ -54,15 +67,27 @@
 	<input type="checkbox" name="attend_reason" value=14>
 		A friend brough me<br>
 	<input type="checkbox" name="attend_reason" value=15>
-		Other: <input type="text" name="attend_reason_other"><br>
+		Other: <input type="text" name="attend_reason_other" class='textfield'><br>
+	</div>
 
-	Please describe any specific sections or experiences of the Arlington Garden that stood out to you.<br>
-	<textarea name="stood_out"></textarea><br>
+	<div class='qa-group'>
+		<div class='question'>
+		Please describe any specific sections or experiences of the Arlington Garden that stood out to you.<br>
+		</div>
+	<textarea name="stood_out" class='textarea'></textarea><br>
+	</div>
 
-	Please describe anything that was frustrating or disappointing about your visit.<br>
-	<textarea name="disappointing"></textarea><br>
+	<div class='qa-group'>
+		<div class='question'>
+		Please describe anything that was frustrating or disappointing about your visit.<br>
+		</div>
+	<textarea name="disappointing" class='textarea'></textarea><br>
+	</div>
 
-	How would you rate your experience in Arlington Garden today? (1 is poor, 10 is excellent)<br>
+	<div class='qa-group'>
+		<div class='question'>
+		How would you rate your experience in Arlington Garden today? (1 is poor, 10 is excellent)<br>
+		</div>
 	<select name="rating">
 		<option value="select">Select</option>
 		<option value=1>1</option>
@@ -76,17 +101,29 @@
 		<option value=9>9</option>
 		<option value=10>10</option>
 	</select><br>
+	</div>
 
-	To what degree did today's visit increase your appreciation for water-conserving gardening?<br>
+	<div class='qa-group'>
+		<div class='question'>
+		To what degree did today's visit increase your appreciation for water-conserving gardening?<br>
+		</div>
 	<input type="radio" name="water_conserving" value="none">Not at all
 	<input type="radio" name="water_conserving" value="some">Somewhat
 	<input type="radio" name="water_conserving" value="high">To a high degree<br>
+	</div>
 
-	Did you know about Arlington Garden before visiting today?<br>
+	<div class='qa-group'>
+		<div class='question'>
+		Did you know about Arlington Garden before visiting today?<br>
+		</div>
 	<input type="radio" name="knew_about" value="yes">Yes
 	<input type="radio" name="knew_about" value="no">No<br>
+	</div>
 
-	If YES, how did you hear about Arlington Garden? (Check all that apply)<br>
+	<div class='qa-group'>
+		<div class='question'>
+		If YES, how did you hear about Arlington Garden? (Check all that apply)<br>
+		</div>
 	<input type="checkbox" name=how_heard_about value="website">
 		Arlington Garden website<br>
 	<input type="checkbox" name=how_heard_about value="online">
@@ -104,19 +141,35 @@
 	<input type="checkbox" name=how_heard_about value="always">
 		I live in the area and have always known about it<br>
 	<input type="checkbox" name=how_heard_about value="other">
-		Other: <input type="text" name=how_heard_about_other><br>
+		Other: <input type="text" name=how_heard_about_other class='textfield'><br>
+	</div>
 
-	Did you post to social media during your visit (or will you)?<br>
+	<div class='qa-group'>
+		<div class='question'>
+		Did you post to social media during your visit (or will you)?<br>
+		</div>
 	<input type="radio" name="post_social" value="yes">Yes
 	<input type="radio" name="post_social" value="no">No<br>
+	</div>
 
-	If YES, what platform of social media did/will you use?<br>
-	<textarea name=social_platform></textarea><br>
+	<div class='qa-group'>
+		<div class='question'>
+		If YES, what platform of social media did/will you use?<br>
+		</div>
+	<textarea name=social_platform class='textarea'></textarea><br>
+	</div>
 
-	Please think about future experiences in the garden. What other classes or topics are of interest to you?<br>
-	<textarea name=topic_interests></textarea><br>
+	<div class='qa-group'>
+		<div class='question'>
+		Please think about future experiences in the garden. What other classes or topics are of interest to you?<br>
+		</div>
+	<textarea name=topic_interests class='textarea'></textarea><br>
+	</div>
 
-	Please select the ways in which you would like to be more involved with Arlington Garden. (Check all that apply)<br>
+	<div class='qa-group'>
+		<div class='question'>
+		Please select the ways in which you would like to be more involved with Arlington Garden. (Check all that apply)<br>
+		</div>
 	<input type="checkbox" name="get_involved" value="newsletter">
 		Signing up for the Arlington Garden newsletter<br>
 	<input type="checkbox" name=get_involved value="donation">
@@ -130,23 +183,43 @@
 	<input type="checkbox" name="get_involved" value="facebook">
 		Following us on Facebook<br>
 	<input type="checkbox" name="get_involved" value="other">
-		Other: <input type="text" name="get_involved" _other><br>
+		Other: <input type="text" name="get_involved" class='textfield'><br>
+	</div>
 
-	What is your gender?<br>
+	<div class='qa-group'>
+		<div class='question'>
+		What is your gender?<br>
+		</div>
 	<input type="radio" name="gender" value="male">Male
 	<input type="radio" name="gender" value="female">Female
 	<input type="radio" name="gender" value="refuse">Prefer not to answer<br>
+	</div>
 
-	What are the ages of the adults with you?<br>
-	<input type="text" name="adult_ages"><br>
+	<div class='qa-group'>
+		<div class='question'>
+		What are the ages of the adults with you?<br>
+		</div>
+	<input type="text" name="adult_ages" class='textfield'><br>
+	</div>
 
-	What are the ages of the children with you?<br>
-	<input type="text" name="child_ages"><br>
+	<div class='qa-group'>
+		<div class='question'>
+		What are the ages of the children with you?<br>
+		</div>
+	<input type="text" name="child_ages" class='textfield'><br>
+	</div>
 
-	What is your zip code? (If outside the U.S., please indicate the country)<br>
-	<input type="text" name="zip"><br>
+	<div class='qa-group'>
+		<div class='question'>
+		What is your zip code? (If outside the U.S., please indicate the country)<br>
+		</div>
+	<input type="text" name="zip" class='textfield'><br>
+	</div>
 
-	Which of the following best describes your household's annual income?<br>
+	<div class='qa-group'>
+		<div class='question'>
+		Which of the following best describes your household's annual income?<br>
+		</div>
 		<select name="income">
 		<option value="select">Select</option>
 		<option value=10>Less than $20,000</option>
@@ -157,8 +230,12 @@
 		<option value=110>$100,000 or more</option>
 		<option value="refuse">Prefer not to respond</option>
 	</select><br>
+	</div>
 
-	Which of the following best describes your ethnicity? (Check all that apply)<br>
+	<div class='qa-group'>
+		<div class='question'>
+		Which of the following best describes your ethnicity? (Check all that apply)<br>
+		</div>
 	<input type="checkbox" name="ethnicity" value="caucasian">
 		Caucasian<br>
 	<input type="checkbox" name="ethnicity" value="african-american">
@@ -170,8 +247,12 @@
 	<input type="checkbox" name="ethnicity" value="native-american">
 		Native American/Alaskan Native<br>
 	<input type="checkbox" name="ethnicity" value="other">
-		Other: <input type="text" name="ethnicity_other"><br>
-	<input type="submit" value="submit">
+		Other: <input type="text" name="ethnicity_other" class='textfield'><br>
+	</div>
+
+	<div class='button-holder'>
+	<input type="submit" value="Submit" class='button'>
+	</div>
 	</form>
 </body>
 
