@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
-import os, csv, mysql.connector, hashlib, uuid
+import os, csv, mysql.connector, hashlib, uuid, json
 import connector as c
 from datetime import datetime
 
@@ -97,22 +97,34 @@ def data():
     
     
 #---------------DASHBOARD----------
+def collect(conn, options, query):
+    '''
+        options = list of options from survey form that pertain to query
+        query = string
+    '''
+    count = {}
+    for o in options:
+        count[o] = conn.select_count('visitor_info_v2', query, o)
+    return count
+    
+
 @app.route('/dashboard', methods = ['GET', 'POST'])
 def dashboard():
     if 'username' not in session:
         return redirect('/')
 
     conn = c.Connector()
-    ethnicities = ['caucasian', 'african-american', 'asian/pacific islander',
-                   'hispanic/latino/chicano', 'native american/alaskan native']
-
-    ethn_count = []
-    for e in ethnicities:
-        ethn_count.append(conn.
-                          select_count('visitor_info_v2','ethnicity', e))
-
+    
+    ethnicities = ['caucasian', 'african-american',
+                   'asian/pacific islander',
+                   'hispanic/latino/chicano',
+                   'native-american/alaskan native']
+    
+    ethn_count = collect(conn, ethnicities, 'ethnicity')
+    
+    questions = json.dumps({"ethnicity": ethn_count})
     print(ethn_count)
-    return render_template('dashboard.html', counts = ethn_count)
+    return render_template('dashboard.html', questions = questions)
 
 
 
