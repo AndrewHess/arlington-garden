@@ -24,7 +24,7 @@
   <!-- <link rel="stylesheet" type="text/css" href="customer-facing.css" />
   <script type="text/javascript" src="customer-facing.js"></script> -->
 
-  <!-- Load the pie chart dependencies. -->
+  <!-- Load the pie chart and bar chart dependencies. -->
   <script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
   <script src="https://cdn.anychart.com/js/8.0.1/anychart-pie.min.js"></script>
   <script src="https://cdn.anychart.com/js/8.0.1/anychart-cartesian.min.js"></script>
@@ -65,30 +65,67 @@
         <hr />
         <h3>Survey Data Analytics</h3>
         Data to observe:
-        <select id="question_select" onchange="update_bar()">
+        <select id="question_select" onchange="update_chart()">
           <option value="first_time">First Visit</option>
+          <option value="attend_reason">Reason for Coming</option>
           <option value="rating">Experience Rating</option>
           <option value="water_conserving">Increased Water-Conserving Gardening Appreciation</option>
           <option value="knew_about">Previously Knew About the Garden</option>
+          <option value="how_heard_about">How Visitors Hear About the Garden</option>
           <option value="post_social">Will Post to Social Media</option>
+          <option value="get_involved">Getting Involved</option>
           <option value="gender">Gender</option>
           <option value="income">Income Range</option>
-	  <option value="ethnicity"> Ethnicity</option>
+	        <option value="ethnicity"> Ethnicity</option>
         </select><br>
 
         <div id="chart_container" style="height: 30em"></div>
         <script type="text/javascript">
-          function update_pie() {
+          function update_chart() {
             // Remove the old chart.
             document.getElementById('chart_container').innerHTML="";
-    	      let e = document.getElementById("question_select");
-    	      let question_selected = e.options[e.selectedIndex].value;
-    	      let sql_data = JSON.parse({{questions | tojson}})[question_selected];
-    	      let data = []
-    	      for (key in sql_data) {
-    		      data.push({x: key, value: sql_data[key] });
-    	      }
 
+            // Get the data for the selected option.
+            let e = document.getElementById("question_select");
+            let question_selected = e.options[e.selectedIndex].value;
+            let sql_data = JSON.parse({{questions | tojson}})[question_selected];
+
+            console.log('sql_data:', sql_data)
+
+            let data = []
+            for (key in sql_data) {
+              data.push({x: key, value: sql_data[key] });
+            }
+
+            console.log('data:', data);
+
+            // Create the appropriate chart.
+            let chart = undefined;
+
+            switch (question_selected) {
+              case 'first_time':
+              case 'rating':
+              case 'water_conserving':
+              case 'knew_about':
+              case 'post_social':
+              case 'gender':
+              case 'income':
+                chart = pie_chart(data);
+                break;
+              default:
+                chart = bar_chart(data);
+            }
+
+            // Add the title.
+            chart.title(e.options[e.selectedIndex])
+
+            // Display the chart.
+            chart.container('chart_container');
+            chart.draw();
+          }
+
+
+          function pie_chart(data) {
             // Create the chart.
             let chart = anychart.pie();
             chart.data(data);
@@ -99,26 +136,10 @@
             chart.fill("aquastyle");
             chart.radius("50%");
 
-            
-	   
-            chart.title(e.options[e.selectedIndex]);
-
-            // Display the chart.
-            chart.container('chart_container');
-            chart.draw();
+            return chart;
           }
 
-          function update_bar() {
-            // Remove the old chart.
-            document.getElementById('chart_container').innerHTML="";
-            let e = document.getElementById("question_select");
-            let question_selected = e.options[e.selectedIndex].value;
-            let sql_data = JSON.parse({{questions | tojson}})[question_selected];
-            let data = []
-            for (key in sql_data) {
-              data.push({x: key, value: sql_data[key] });
-            }
-
+          function bar_chart(data) {
             // Create the chart.
             let chart = anychart.cartesian();
 
@@ -129,20 +150,14 @@
 
             // Format the chart.
             chart.animation(true);
-            chart.title(e.options[e.selectedIndex])
             chart.yScale().minimum(0);
-            // chart.yAxis(true);
             chart.xAxis(true);
 
-            // Display the chart.
-            chart.container('chart_container');
-            chart.draw();
-
+            return chart;
           }
 
           // We want to initially have a chart.
-          // update_pie();
-          update_bar();
+          update_chart();
 
         </script>
       </div>
