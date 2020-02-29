@@ -115,16 +115,83 @@ def dashboard():
 
     conn = c.Connector()
     
+    first_time = ['yes', 'no'];
+    attend_reason = ['learning about plants',
+                     'saw an ad',
+                     'rest/relax',
+                     'children away from screens',
+                     'entertainment',
+                     'picnic',
+                     'connect with nature',
+                     'bird watching',
+                     'from out of town',
+                     'free community resource',
+                     'famliy activity',
+                     'photography',
+                     'bring a child',
+                     'friend brought me',
+                     'other'];
+    rating = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    water_conserving = ['none', 'some', 'high'];
+    knew_about = ['yes', 'no'];
+    how_heard_about = ['website',
+                       'online',
+                       'newspaper',
+                       'magazine',
+                       'drove_by',
+                       'word_of_mouth',
+                       'social_media',
+                       'always_knew_about',
+                       'other'];
+    post_social = ['yes', 'no'];
+    get_involved = ['newsletter',
+                    'donation',
+                    'photography_permit',
+                    'volunteer',
+                    'marmalade',
+                    'facebook',
+                    'other']
+    gender = ['male', 'female', 'no answer'];
+    income = ['below 20',
+              '20-40',
+              '40-60',
+              '60-75',
+              '75-100',
+              'above 100',
+              'no answer'];
     ethnicities = ['caucasian',
                    'african-american',
                    'asian/pacific islander',
                    'hispanic/latino/chicano',
                    'native-american/alaskan native',
-                   'other']
+                   'other'];
     
-    ethn_count = collect(conn, ethnicities, 'ethnicity')
-    
-    questions = json.dumps({"ethnicity": ethn_count})
+    # Count the number of occurances of values in the table. The third
+    # argument to collect() must match the row name of the database being
+    # queried.
+    first_time_count = collect(conn, first_time, 'FirstTime');
+    attend_reason_count = collect(conn, attend_reason, 'Reason');
+    rating_count = collect(conn, rating, 'Rating');
+    water_conserving_count = collect(conn, water_conserving, 'AppreciationIncrease');
+    knew_about_count = collect(conn, knew_about, 'KnewAbout');
+    how_heard_about_count = collect(conn, how_heard_about, 'HowHeardAbout');
+    post_social_count = collect(conn, post_social, 'SocialMediaPosted');
+    get_involved_count = collect(conn, get_involved, 'GetInvolved');
+    gender_count = collect(conn, gender, 'Gender');
+    income_count = collect(conn, income, 'Income');
+    ethn_count = collect(conn, ethnicities, 'Ethnicity');
+
+    questions = json.dumps({'first_time': first_time_count,
+                            'attend_reason': attend_reason_count,
+                            'rating': rating_count,
+                            'water_conserving': water_conserving_count,
+                            'knew_about': knew_about_count,
+                            'how_heard_about': how_heard_about_count,
+                            'post_social': post_social_count,
+                            'get_involved': get_involved_count,
+                            'gender': gender_count,
+                            'income': income_count,
+                            'ethnicity': ethn_count});
     print(ethn_count)
     return render_template('dashboard.html', questions = questions)
 
