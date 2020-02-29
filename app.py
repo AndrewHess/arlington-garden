@@ -115,10 +115,12 @@ def dashboard():
 
     conn = c.Connector()
     
-    ethnicities = ['caucasian', 'african-american',
+    ethnicities = ['caucasian',
+                   'african-american',
                    'asian/pacific islander',
                    'hispanic/latino/chicano',
-                   'native-american/alaskan native']
+                   'native-american/alaskan native',
+                   'other']
     
     ethn_count = collect(conn, ethnicities, 'ethnicity')
     
