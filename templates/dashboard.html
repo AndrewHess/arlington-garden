@@ -27,6 +27,7 @@
   <!-- Load the pie chart dependencies. -->
   <script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
   <script src="https://cdn.anychart.com/js/8.0.1/anychart-pie.min.js"></script>
+  <script src="https://cdn.anychart.com/js/8.0.1/anychart-cartesian.min.js"></script>
 </head>
 
 <body>
@@ -64,7 +65,7 @@
         <hr />
         <h3>Survey Data Analytics</h3>
         Data to observe:
-        <select id="question_select" onchange="update_pie()">
+        <select id="question_select" onchange="update_bar()">
           <option value="first_time">First Visit</option>
           <option value="rating">Experience Rating</option>
           <option value="water_conserving">Increased Water-Conserving Gardening Appreciation</option>
@@ -78,16 +79,15 @@
         <div id="chart_container" style="height: 30em"></div>
         <script type="text/javascript">
           function update_pie() {
-            // Remove the old pie chart.
-              document.getElementById('chart_container').innerHTML="";
-	      let e = document.getElementById("question_select");
-	      let question_selected = e.options[e.selectedIndex].value;
-	      let sql_data = JSON.parse({{questions | tojson}})[question_selected];
-	      let data = []
-	      for (key in sql_data) {
-		  data.push({x: key, value: sql_data[key] });
-	      }
-
+            // Remove the old chart.
+            document.getElementById('chart_container').innerHTML="";
+    	      let e = document.getElementById("question_select");
+    	      let question_selected = e.options[e.selectedIndex].value;
+    	      let sql_data = JSON.parse({{questions | tojson}})[question_selected];
+    	      let data = []
+    	      for (key in sql_data) {
+    		      data.push({x: key, value: sql_data[key] });
+    	      }
 
             // Create the chart.
             let chart = anychart.pie();
@@ -108,8 +108,42 @@
             chart.draw();
           }
 
+          function update_bar() {
+            // Remove the old chart.
+            document.getElementById('chart_container').innerHTML="";
+            let e = document.getElementById("question_select");
+            let question_selected = e.options[e.selectedIndex].value;
+            let sql_data = JSON.parse({{questions | tojson}})[question_selected];
+            let data = []
+            for (key in sql_data) {
+              data.push({x: key, value: sql_data[key] });
+            }
+
+            // Create the chart.
+            let chart = anychart.cartesian();
+
+            // Add the data.
+            let column = chart.column(data);
+            // column.labels().enabled(true).format('${value} mln');
+            column.labels().enabled(true)
+
+            // Format the chart.
+            chart.animation(true);
+            chart.title(e.options[e.selectedIndex])
+            chart.yScale().minimum(0);
+            // chart.yAxis(true);
+            chart.xAxis(true);
+
+            // Display the chart.
+            chart.container('chart_container');
+            chart.draw();
+
+          }
+
           // We want to initially have a chart.
-          update_pie();
+          // update_pie();
+          update_bar();
+
         </script>
       </div>
     </div>
