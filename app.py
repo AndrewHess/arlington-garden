@@ -90,7 +90,7 @@ def data():
                 adult_ages, child_ages, zip_code,
                 income, ethnicity, qr_id)
 
-    conn.insert_row('visitor_info_v2', all_data)
+    conn.insert_row('visitor_info', all_data)
     
     
     return redirect('/')
@@ -104,7 +104,7 @@ def collect(conn, options, query):
     '''
     count = {}
     for o in options:
-        count[o] = conn.select_count('visitor_info_v2', query, o)
+        count[o] = conn.select_count('visitor_info', query, o)
     return count
     
 
@@ -114,7 +114,7 @@ def dashboard():
         return redirect('/')
 
     conn = c.Connector()
-    
+
     first_time = ['yes', 'no'];
     attend_reason = ['learning about plants',
                      'saw an ad',
