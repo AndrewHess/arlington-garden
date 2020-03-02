@@ -77,7 +77,7 @@ class Connector:
         data = None
         
         try:
-            execute_cmd = f"SELECT COUNT(*) FROM {table} WHERE  {field} like '%{field_val}%'"
+            execute_cmd = f"SELECT COUNT(*) FROM {table} WHERE  {field} REGEXP '(^|.* ){field_val}($| .*)'"
             print('\n' + execute_cmd + '\n')
             self.cursor.execute(execute_cmd)
             data = self.cursor.fetchall()[0][0]
