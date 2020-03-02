@@ -94,7 +94,27 @@ def data():
     
     
     return redirect('/')
-    
+
+@app.route('/get_data_selection', methods = ['GET', 'POST'])
+def get_data_selection():
+  days = float(request.form['time_number'])
+  timeframe = request.form['time_type']
+
+  if timeframe == 'weeks':
+    days *= 7
+  elif timeframe == 'months':
+    days *= 30
+  elif timeframe == 'years':
+    days *= 365
+
+  # Filter the day with this timeframe. This filter assumes that the timestamp
+  # field in the database is named 'timestamp'.
+  time_filter = f'timestamp >= DATE(NOW()) - INTERVAL {days} DAY'
+
+  print('time filter:', time_filter)
+
+  return dashboard(suffix=time_filter)
+
     
 #---------------DASHBOARD----------
 def collect(conn, options, query):
@@ -109,11 +129,12 @@ def collect(conn, options, query):
     
 
 @app.route('/dashboard', methods = ['GET', 'POST'])
-def dashboard():
+def dashboard(suffix=None):
     if 'username' not in session:
         return redirect('/')
 
     conn = c.Connector()
+    conn.add_suffix(suffix)
 
     first_time = ['yes', 'no'];
     attend_reason = ['learning about plants',

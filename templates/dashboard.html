@@ -63,22 +63,36 @@
         <div id="chart-01"></div>
         <hr />
         <h3>Survey Data Analytics</h3>
-        <div id="response_count"></div>
 
-        Data to observe:
-        <select id="question_select" onchange="update_chart()">
-          <option value="first_time">First Visit</option>
-          <option value="attend_reason">Reason for Coming</option>
-          <option value="rating">Experience Rating</option>
-          <option value="water_conserving">Increased Water-Conserving Gardening Appreciation</option>
-          <option value="knew_about">Previously Knew About the Garden</option>
-          <option value="how_heard_about">How Visitors Hear About the Garden</option>
-          <option value="post_social">Will Post to Social Media</option>
-          <option value="get_involved">Getting Involved</option>
-          <option value="gender">Gender</option>
-          <option value="income">Income Range</option>
-	        <option value="ethnicity"> Ethnicity</option>
-        </select><br>
+        <form method="post" action="/get_data_selection">
+          <div id="response_count"></div>
+
+          Select data from the past <input type="number" name="time_number" value=100>
+          <select name="time_type">
+            <option value="days">Days</option>
+            <option value="weeks">Weeks</option>
+            <option value="months">Months</option>
+            <option value="years" selected>Years</option>
+          </select>
+          <input type="submit" value="update">
+          <br>
+
+          Data to observe:
+          <select id="question_select" onchange="update_chart()">
+            <option value="first_time">First Visit</option>
+            <option value="attend_reason">Reason for Coming</option>
+            <option value="rating">Experience Rating</option>
+            <option value="water_conserving">Increased Water-Conserving Gardening Appreciation</option>
+            <option value="knew_about">Previously Knew About the Garden</option>
+            <option value="how_heard_about">How Visitors Hear About the Garden</option>
+            <option value="post_social">Will Post to Social Media</option>
+            <option value="get_involved">Getting Involved</option>
+            <option value="gender">Gender</option>
+            <option value="income">Income Range</option>
+  	        <option value="ethnicity"> Ethnicity</option>
+            <option value="submission_day">Submission Day of Week</option>
+          </select>
+        </form>
 
         <div id="chart_container" style="height: 30em"></div>
         <script type="text/javascript">

@@ -8,6 +8,7 @@ class Connector:
     cursor = None       # The connection cursor.
     config_file = None  # The file with MySQL credentials.
     section = None      # The section to read from the config file.
+    suffix = None
 
     def __init__(self, config='config.ini', section='mysql'):
         self.config_file = config
@@ -69,6 +70,29 @@ class Connector:
             print(error)
 
 
+    def add_suffix(self, suffix):
+        if suffix is None:
+            return
+
+        if self.suffix is None:
+            self.suffix = suffix
+        else:
+            self.suffix += " " + suffix
+
+
+    def set_query(self, query):
+        # Add the suffix, if there is one.
+        if self.suffix is not None:
+            if 'WHERE' in query:
+                query += ' AND ' + self.suffix
+            else:
+                query += ' WHERE ' + self.suffix
+
+        print('running query:', query)
+
+        self.cursor.execute(query)
+
+
     def select_count(self, table, field, field_val):
         '''
         Get count of number of rows in specified MySQL table
@@ -79,7 +103,7 @@ class Connector:
         try:
             execute_cmd = f"SELECT COUNT(*) FROM {table} WHERE  {field} REGEXP '(^|.* ){field_val}($| .*)'"
             print('\n' + execute_cmd + '\n')
-            self.cursor.execute(execute_cmd)
+            self.set_query(execute_cmd)
             data = self.cursor.fetchall()[0][0]
             print(f'Num rows where {field}={field_val}: {data}')
 
@@ -94,7 +118,7 @@ class Connector:
         data = None
 
         try:
-            self.cursor.execute(f"SELECT COUNT(*) FROM {table}")
+            self.set_query(f"SELECT COUNT(*) FROM {table}")
             data = self.cursor.fetchall()
 
         except Error as e:
@@ -113,7 +137,7 @@ class Connector:
         data = None
 
         try:
-            self.cursor.execute(f'SELECT * FROM {table}')
+            self.set_query(f'SELECT * FROM {table}')
             data = self.cursor.fetchall()
 
         except Error as e:
