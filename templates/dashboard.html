@@ -63,6 +63,8 @@
         <div id="chart-01"></div>
         <hr />
         <h3>Survey Data Analytics</h3>
+        <div id="response_count"></div>
+
         Data to observe:
         <select id="question_select" onchange="update_chart()">
           <option value="first_time">First Visit</option>
@@ -155,8 +157,14 @@
             return chart;
           }
 
+          function show_response_count() {
+            let rc = JSON.parse({{response_count | tojson}});
+            document.getElementById('response_count').innerHTML="Number of submissions: " + rc;
+          }
+
           // We want to initially have a chart.
           update_chart();
+          show_response_count();
 
         </script>
       </div>

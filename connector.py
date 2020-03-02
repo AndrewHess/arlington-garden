@@ -88,6 +88,21 @@ class Connector:
 
         return data
 
+
+    def select_num_rows(self, table):
+        ''' Return the number of entries in the database. '''
+        data = None
+
+        try:
+            self.cursor.execute(f"SELECT COUNT(*) FROM {table}")
+            data = self.cursor.fetchall()
+
+        except Error as e:
+            print(e)
+
+        return data
+
+
     def select_all_data(self, table):
         '''
         Get all data from the specified MySQL table.

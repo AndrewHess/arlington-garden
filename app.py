@@ -165,7 +165,7 @@ def dashboard():
                    'hispanic/latino/chicano',
                    'native-american/alaskan native',
                    'other'];
-    
+
     # Count the number of occurances of values in the table. The third
     # argument to collect() must match the row name of the database being
     # queried.
@@ -192,8 +192,11 @@ def dashboard():
                             'gender': gender_count,
                             'income': income_count,
                             'ethnicity': ethn_count});
-    print(ethn_count)
-    return render_template('dashboard.html', questions = questions)
+
+    response_count = conn.select_num_rows('visitor_info')
+
+    return render_template('dashboard.html', questions=questions,
+                           response_count=response_count)
 
 
 
