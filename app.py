@@ -186,6 +186,13 @@ def dashboard(suffix=None):
                    'hispanic/latino/chicano',
                    'native-american/alaskan native',
                    'other'];
+    week_day = ['Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+                'Sunday'];
 
     # Count the number of occurances of values in the table. The third
     # argument to collect() must match the row name of the database being
@@ -201,6 +208,7 @@ def dashboard(suffix=None):
     gender_count = collect(conn, gender, 'Gender');
     income_count = collect(conn, income, 'Income');
     ethn_count = collect(conn, ethnicities, 'Ethnicity');
+    week_day_count = collect(conn, week_day, 'DAYNAME(Timestamp)');
 
     questions = json.dumps({'first_time': first_time_count,
                             'attend_reason': attend_reason_count,
@@ -212,7 +220,8 @@ def dashboard(suffix=None):
                             'get_involved': get_involved_count,
                             'gender': gender_count,
                             'income': income_count,
-                            'ethnicity': ethn_count});
+                            'ethnicity': ethn_count,
+                            'submission_day': week_day_count});
 
     response_count = conn.select_num_rows('visitor_info')
 
