@@ -5,40 +5,131 @@
 	<title>Visitor Survey</title>
 
 	<link rel="stylesheet" type="text/css" href="static/survey.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<style>
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: green;
+  color: white;
+}
+
+.topnav .login-container {
+  float: right;
+}
+
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+  width:120px;
+}
+
+.topnav .login-container button {
+  float: right;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background-color: #555;
+  color: white;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .login-container button:hover {
+  background-color: green;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav .login-container {
+    float: none;
+  }
+  .topnav a, .topnav input[type=text], .topnav .login-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+}
+</style>
+	
 </head>
 
 
-
 <body>
-        <h2>Admin Login</h2>
-	{% set messages = get_flashed_messages() %}
-	{% for message in messages %}
-	<h4> {{message}} </h4>
-	{% endfor %}
-	
-	<div class="form-style-5">
-		<form method="post" action="/authenticate">
-		  Username: <input type="text" name="username" required class='textfield'><br><br>
-		  Password: <input type="password" name="password" required class='textfield'><br>
-		  <input type="submit" value="login">
-		</form> <br> <br>
-	</div>
-	
-	<h2>Survey</h2>
+  <div class="topnav">
+    <a class="active">Survey</a>
+    {% if login == True %}
+    <a href = "{{url_for('dashboard')}}"> Dashboard </a>
+    <div class="login-container">
+       <form method="post" action="/logout">
+	 <button type="submit">Log out</button>
+       </form> 
+     </div>
+    {% endif %}
+    {% if login == False %}
+    <div class="login-container">
+      {% for message in get_flashed_messages() %}
+      <div style="font-weight: bold; color:#993333"> {{message}} </div>
+      {% endfor %}
+    <form method="post" action="/authenticate">
+      <i>For garden personnel ONLY:</i> 
+      <input type="text" placeholder="Username" name="username" required >
+      <input type="text" placeholder="Password" name="password" required>
+      <button type="submit">Login</button>
+    </form> 
+  </div>
+  {% endif %}
+  </div>
+
+	<br><br>
 	<form method="post" action="/data">
 	<div class='qa-group'>
 		<div class='question'>
-		Is this your first time visiting Arlington Garden?<br>
+		  Is this your first time visiting Arlington Garden?
 		</div>
-	<input type="radio" name="first_time" value="yes">Yes
+	<input type="radio" name="first_time" value="yes" >Yes
 	<input type="radio" name="first_time" value="no" >No<br>
 	</div>
 
 	<div class='qa-group'>
 	<div class='question'>
-		Why did you decide to come to Arlington Garden today? (Check all that apply)
+	  Why did you decide to come to Arlington Garden today? (Check all that apply)
 	</div>
-	<input type="checkbox" name="attend_reason" value='learning about plants'>
+	<input type="checkbox" name="attend_reason" value='learning about plants' required>
 		I am interested in learning about plants<br>
 	<input type="checkbox" name="attend_reason" value='saw an ad'>
 		I saw an advertisement<br>
@@ -67,7 +158,7 @@
 	<input type="checkbox" name="attend_reason" value='friend brought me'>
 		A friend brought me<br>
 	<input type="checkbox" name="attend_reason" value='other'>
-		Other: <input type="text" name="attend_reason_other" class='textfield'><br>
+		Other: <input type="text" name="attend_reason" class='textfield'><br>
 	</div>
 
 	<div class='qa-group'>
@@ -86,10 +177,9 @@
 
 	<div class='qa-group'>
 		<div class='question'>
-		How would you rate your experience in Arlington Garden today? (1 is poor, 10 is excellent)<br>
+		  How would you rate your experience in Arlington Garden today? (1 is poor, 10 is excellent)<br>		  <
 		</div>
 	<select name="rating">
-		<option value="select">Select</option>
 		<option value=1>1</option>
 		<option value=2>2</option>
 		<option value=3>3</option>
@@ -124,24 +214,24 @@
 		<div class='question'>
 		If YES, how did you hear about Arlington Garden? (Check all that apply)<br>
 		</div>
-	<input type="checkbox" name=how_heard_about value="website">
+	<input type="checkbox" name=heard_about value="website">
 		Arlington Garden website<br>
-	<input type="checkbox" name=how_heard_about value="online">
+	<input type="checkbox" name=heard_about value="online">
 		Online search<br>
-	<input type="checkbox" name=how_heard_about value="newspaper">
+	<input type="checkbox" name=heard_about value="newspaper">
 		Newspaper<br>
-	<input type="checkbox" name=how_heard_about value="magazine">
+	<input type="checkbox" name=heard_about value="magazine">
 		Magazine<br>
-	<input type="checkbox" name=how_heard_about value="drove_by">
+	<input type="checkbox" name=heard_about value="drove_by">
 		Just drove by<br>
-	<input type="checkbox" name=how_heard_about value="word_of_mouth">
+	<input type="checkbox" name=heard_about value="word_of_mouth">
 		Word of mouth<br>
-	<input type="checkbox" name=how_heard_about value="social_media">
+	<input type="checkbox" name=heard_about value="social_media">
 		Social media<br>
-	<input type="checkbox" name=how_heard_about value="always_knew_about">
+	<input type="checkbox" name=heard_about value="always_knew_about">
 		I live in the area and have always known about it<br>
-	<input type="checkbox" name=how_heard_about value="other">
-		Other: <input type="text" name=how_heard_about_other class='textfield'><br>
+	<input type="checkbox" name=heard_about value="other">
+		Other: <input type="text" name=heard_about class='textfield'><br>
 	</div>
 
 	<div class='qa-group'>
@@ -247,7 +337,7 @@
 	<input type="checkbox" name="ethnicity" value="native-american/alaskan native">
 		Native American/Alaskan Native<br>
 	<input type="checkbox" name="ethnicity" value="other">
-		Other: <input type="text" name="ethnicity_other" class='textfield'><br>
+		Other: <input type="text" name="ethnicity" class='textfield'><br>
 	</div>
 
 	<div class='button-holder'>

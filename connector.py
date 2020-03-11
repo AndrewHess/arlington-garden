@@ -69,6 +69,36 @@ class Connector:
         except Error as error:
             print(error)
 
+    
+    def select_other_responses (self, table, fields):
+        '''
+        Get a dictionrary of fields (keys) and the responses types in
+        for an "Other" response (value)
+        '''
+        d = {}
+        data = None
+
+        try:
+            for field in fields:
+                execute_cmd = f"SELECT {field} FROM {table} WHERE {field} like '%other%'"
+                print('\n' + execute_cmd + '\n')
+                self.cursor.execute(execute_cmd)
+                
+                data = self.cursor.fetchall()
+                
+                d[field] = []
+                data_lst = [j[0].split(' ') for j in data]
+                for item in data_lst:
+                    for i in range(1,len(item)):
+                        if item[i-1] == 'other':
+                            d[field].append(' '.join(item[i:]))
+                            break
+
+        except Error as e:
+            print(e)
+
+        return d
+
 
     def add_suffix(self, suffix):
         if suffix is None:
@@ -92,7 +122,7 @@ class Connector:
 
         self.cursor.execute(query)
 
-
+       
     def select_count(self, table, field, field_val):
         '''
         Get count of number of rows in specified MySQL table

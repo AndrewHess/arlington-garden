@@ -6,6 +6,8 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
+table_name = 'visitor_info_correct'
+
 #---------HOME PAGE--------------
 @app.route('/')
 def root():
@@ -13,11 +15,17 @@ def root():
     if qr_id is None:
         qr_id = '0'
     session['qr_id'] = qr_id
+
+    if 'username' in session:
+        return render_template('survey.html', login=True )
+    return render_template('survey.html', login=False)
+
+#----------LOG OUT----------------
+@app.route('/logout', methods = ['GET', 'POST'])
+def logout():
+    session.pop('username')
+    return redirect(url_for('root'))
     
-    return render_template('survey.html')
-                        
-
-
 #------------LOGIN----------------
 class Admin_Login:
     username = 'admin'
@@ -48,7 +56,6 @@ def authenticate():
 
     if (this_admin.check_password(input_password) and
         this_admin.check_username(input_username)):
-        flash('Login Successful')
         session['username'] = input_username
         return redirect(url_for('dashboard'))
 
@@ -70,7 +77,7 @@ def data():
     rating = request.form['rating']
     water = request.form['water_conserving']
     knew_about = request.form['knew_about']
-    heard_about = ' '.join(request.form.getlist('how_heard_about'))
+    heard_about = ' '.join(request.form.getlist('heard_about'))
     post_social = request.form['post_social']
     platform_social = request.form['social_platform']
     topic_interests = request.form['topic_interests']
@@ -90,10 +97,10 @@ def data():
                 adult_ages, child_ages, zip_code,
                 income, ethnicity, qr_id)
 
-    conn.insert_row('visitor_info', all_data)
+    conn.insert_row(table_name, all_data)
     
     
-    return redirect('/')
+    return redirect(url_for('root'))
 
 @app.route('/get_data_selection', methods = ['GET', 'POST'])
 def get_data_selection():
@@ -114,7 +121,7 @@ def get_data_selection():
   print('time filter:', time_filter)
 
   return dashboard(suffix=time_filter)
-
+    
     
 #---------------DASHBOARD----------
 def collect(conn, options, query):
@@ -124,14 +131,14 @@ def collect(conn, options, query):
     '''
     count = {}
     for o in options:
-        count[o] = conn.select_count('visitor_info', query, o)
+        count[o] = conn.select_count(table_name, query, o)
     return count
     
 
 @app.route('/dashboard', methods = ['GET', 'POST'])
 def dashboard(suffix=None):
     if 'username' not in session:
-        return redirect('/')
+        return redirect(url_for('root'))
 
     conn = c.Connector()
     conn.add_suffix(suffix)
@@ -210,23 +217,27 @@ def dashboard(suffix=None):
     ethn_count = collect(conn, ethnicities, 'Ethnicity');
     week_day_count = collect(conn, week_day, 'DAYNAME(Timestamp)');
 
-    questions = json.dumps({'first_time': first_time_count,
-                            'attend_reason': attend_reason_count,
-                            'rating': rating_count,
-                            'water_conserving': water_conserving_count,
-                            'knew_about': knew_about_count,
-                            'how_heard_about': how_heard_about_count,
-                            'post_social': post_social_count,
-                            'get_involved': get_involved_count,
-                            'gender': gender_count,
-                            'income': income_count,
-                            'ethnicity': ethn_count,
-                            'submission_day': week_day_count});
-
+    questions = json.dumps({'FirstTime': first_time_count,
+                            'Reason': attend_reason_count,
+                            'Rating': rating_count,
+                            'AppreciationIncrease': water_conserving_count,
+                            'KnewAbout': knew_about_count,
+                            'HowHeardAbout': how_heard_about_count,
+                            'SocialMediaPosted': post_social_count,
+                            'GetInvolved': get_involved_count,
+                            'Gender': gender_count,
+                            'Income': income_count,
+                            'Ethnicity': ethn_count,
+                            'SubmissionDay': week_day_count});
+    
     response_count = conn.select_num_rows('visitor_info')
+    others = json.dumps(conn.select_other_responses(table_name, ['GetInvolved', 'Reason',
+                                                 'HowHeardAbout',
+                                                 'Ethnicity']))
 
-    return render_template('dashboard.html', questions=questions,
-                           response_count=response_count)
+    return render_template('dashboard.html', questions = questions,
+                           others = others, response_count = response_count)
+
 
 
 
