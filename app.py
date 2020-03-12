@@ -6,7 +6,7 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
-table_name = 'visitor_info_correct'
+table_name = 'visitor_info'
 
 #---------HOME PAGE--------------
 @app.route('/')
@@ -230,7 +230,7 @@ def dashboard(suffix=None):
                             'Ethnicity': ethn_count,
                             'SubmissionDay': week_day_count});
     
-    response_count = conn.select_num_rows('visitor_info')
+    response_count = conn.select_num_rows(table_name)
     others = json.dumps(conn.select_other_responses(table_name, ['GetInvolved', 'Reason',
                                                  'HowHeardAbout',
                                                  'Ethnicity']))

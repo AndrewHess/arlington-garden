@@ -151,8 +151,6 @@ body {
         <h3>Survey Data Analytics</h3>
 	
         <form method="post" action="/get_data_selection">
-          <div id="response_count"></div>
-
           Select data from the past <input type="number" name="time_number" value=100>
           <select name="time_type">
             <option value="days">Days</option>
@@ -162,6 +160,8 @@ body {
           </select>
           <input type="submit" value="update">
           <br>
+
+          <div id="response_count"></div>
 
           Data to observe:
           <select id="question_select" onchange="update_chart()">
@@ -175,7 +175,8 @@ body {
             <option value="GetInvolved">Getting Involved</option>
             <option value="Gender">Gender</option>
             <option value="Income">Income Range</option>
-	    <option value="Ethnicity"> Ethnicity</option>
+	          <option value="Ethnicity"> Ethnicity</option>
+            <option value="SubmissionDay">Submission Day of Week</option>
           </select><br>
         </form>
 
@@ -218,26 +219,25 @@ body {
               data.push({x: key, value: sql_data[key] });
             }
 
-            console.log('data:', data);
+            console.log('sql_data:', sql_data);
 
             // Create the appropriate chart.
             let chart = undefined;
 
               switch (question_selected) {
-		  
-	      case 'FirstTime':
-              case 'Rating':
-              case 'AppreciationIncrease':
-              case 'KnewAbout':
-              case 'SocialMediaPosted':
-              case 'Gender':
-              case 'Income':
-              case 'SubmissionDay':
-		  
-                  chart = pie_chart(data);
-                  break;
-              default:
-                  chart = bar_chart(data);
+  	            case 'FirstTime':
+                case 'Rating':
+                case 'AppreciationIncrease':
+                case 'KnewAbout':
+                case 'SocialMediaPosted':
+                case 'Gender':
+                case 'Income':
+                case 'SubmissionDay':
+
+                    chart = pie_chart(data);
+                    break;
+                default:
+                    chart = bar_chart(data);
               }
 	      
             // Add the title.
