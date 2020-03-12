@@ -90,15 +90,19 @@ def data():
     ethnicity = ' '.join(request.form.getlist('ethnicity'))
     qr_id = session['qr_id']
     
-    
     all_data = (first_time, attend_reason, stood_out,
                 disap, rating, water, knew_about, heard_about,
                 post_social, platform_social, topic_interests, get_involved, gender,
                 adult_ages, child_ages, zip_code,
                 income, ethnicity, qr_id)
 
-    conn.insert_row(table_name, all_data)
-    
+    cols = ('FirstTime', 'Reason', 'StoodOut', 'Disappointing', 'Rating',
+            'AppreciationIncrease', 'KnewAbout', 'HowHeardAbout',
+            'SocialMediaPosted', 'SocialMediaPlatform', 'TopicInterests',
+            'GetInvolved', 'Gender', 'AdultAges', 'ChildAges', 'Zip',
+            'Income', 'Ethnicity', 'QRCode')
+
+    conn.insert_row(table_name, cols, all_data)
     
     return redirect(url_for('root'))
 

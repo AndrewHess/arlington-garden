@@ -176,15 +176,18 @@ class Connector:
         return data
 
 
-    def insert_row(self, table, args):
+    def insert_row(self, table, cols, args):
         '''
         Insert a row into the MySQL specified table.
 
         table (string): the name of the table insert data into.
+        cols (tuple): the names of the columns to insert data into.
         args (tuple): the data to insert; this must match the table's fields.
         '''
 
-        query = f'INSERT INTO {table} VALUES ' + str(args)
+        # Remove any quotation marks around the column names.
+        strcols = str(cols).replace("'", '').replace('"', '')
+        query = f'INSERT INTO {table} {strcols} VALUES {str(args)}'
 
         try:
             self.cursor.execute(query, ())
