@@ -46,8 +46,6 @@ class Admin_Login:
     def check_username(self, input_username):
         return input_username == self.username
 
-# For now, only have one admin account so make the password "admin"
-
 @app.route('/authenticate', methods = ['POST'])
 def authenticate():
     input_username = request.form['username']
