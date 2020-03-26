@@ -198,11 +198,8 @@ body {
             let e = document.getElementById("question_select");
             let question_selected = e.options[e.selectedIndex].value
               let sql_data = JSON.parse({{questions | tojson}})[question_selected]
-	      
-	      console.log(sql_data);
-	      
+
 	      let other_responses_dict = JSON.parse({{others | tojson}})
-	    console.log("other", other_responses_dict)
 	    let other_responses = null
 	    if (other_responses_dict.hasOwnProperty(question_selected)) {
 		other_responses = other_responses_dict[question_selected]; 
@@ -218,8 +215,6 @@ body {
             for (key in sql_data) {
               data.push({x: key, value: sql_data[key] });
             }
-
-            console.log('sql_data:', sql_data);
 
             // Create the appropriate chart.
             let chart = undefined;

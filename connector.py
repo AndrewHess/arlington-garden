@@ -81,7 +81,6 @@ class Connector:
         try:
             for field in fields:
                 execute_cmd = f"SELECT {field} FROM {table} WHERE {field} like '%other%'"
-                print('\n' + execute_cmd + '\n')
                 self.cursor.execute(execute_cmd)
                 
                 data = self.cursor.fetchall()
@@ -118,8 +117,6 @@ class Connector:
             else:
                 query += ' WHERE ' + self.suffix
 
-        print('running query:', query)
-
         self.cursor.execute(query)
 
        
@@ -132,10 +129,8 @@ class Connector:
         
         try:
             execute_cmd = f"SELECT COUNT(*) FROM {table} WHERE  {field} REGEXP '(^|.* ){field_val}($| .*)'"
-            print('\n' + execute_cmd + '\n')
             self.set_query(execute_cmd)
             data = self.cursor.fetchall()[0][0]
-            print(f'Num rows where {field}={field_val}: {data}')
 
         except Error as e:
             print(e)

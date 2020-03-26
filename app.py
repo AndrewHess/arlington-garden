@@ -122,8 +122,6 @@ def get_data_selection():
   # field in the database is named 'timestamp'.
   time_filter = f'timestamp >= DATE(NOW()) - INTERVAL {days} DAY'
 
-  print('time filter:', time_filter)
-
   return dashboard(suffix=time_filter)
     
     
