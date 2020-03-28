@@ -69,10 +69,28 @@ class Connector:
         except Error as error:
             print(error)
 
-    
+
+    def select_column(self, field, table) :
+        data = []
+        ''' Select data from a column in a table '''
+        try:
+            cmd = f"SELECT {field} FROM {table} WHERE {field} <> '';"
+            self.cursor.execute(cmd)
+
+            for item in self.cursor:
+                data.append(item[0])
+
+            return data
+
+        except Error as error:
+            print(error)
+            return data
+            
+            
+            
     def select_other_responses (self, table, fields):
         '''
-        Get a dictionrary of fields (keys) and the responses types in
+        Get a dictionary of fields (keys) and the responses typed in
         for an "Other" response (value)
         '''
         d = {}

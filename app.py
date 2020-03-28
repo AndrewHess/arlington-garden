@@ -68,9 +68,10 @@ def data():
     conn = c.Connector()
 
     # fetching form data
+
+    stood_out = request.form['stood_out']
     first_time = request.form['first_time']
     attend_reason = ' '.join(request.form.getlist('attend_reason'))
-    stood_out = request.form['stood_out']
     disap = request.form['disappointing']
     rating = request.form['rating']
     water = request.form['water_conserving']
@@ -143,6 +144,18 @@ def dashboard(suffix=None):
     conn = c.Connector()
     conn.add_suffix(suffix)
 
+    # Selecting all text responses 
+    social_media_plat = conn.select_column('SocialMediaPlatform', table_name)
+    print("\n\n")
+    print(social_media_plat)
+    stoodout = conn.select_column('StoodOut', table_name)
+    disappointing = conn.select_column('Disappointing', table_name)
+    topic_interests = conn.select_column('TopicInterests', table_name)
+    adult_ages = conn.select_column('AdultAges', table_name)
+    child_ages = conn.select_column('ChildAges', table_name)
+    zip_code = conn.select_column('Zip', table_name)
+
+    # Selecting radio button, checkboxes, or dropdown responses 
     first_time = ['yes', 'no'];
     attend_reason = ['learning about plants',
                      'saw an ad',
@@ -228,7 +241,14 @@ def dashboard(suffix=None):
                             'Gender': gender_count,
                             'Income': income_count,
                             'Ethnicity': ethn_count,
-                            'SubmissionDay': week_day_count});
+                            'SubmissionDay': week_day_count,
+                            'StoodOut': stoodout,
+                            'Disappointing': disappointing,
+                            'SocialMediaPlatform': social_media_plat,
+                            'AdultAges': adult_ages,
+                            'ChildAges': child_ages,
+                            'Zip': zip_code,
+                            'TopicInterests': topic_interests});
     
     response_count = conn.select_num_rows(table_name)
     others = json.dumps(conn.select_other_responses(table_name, ['GetInvolved', 'Reason',

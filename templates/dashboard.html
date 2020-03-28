@@ -175,13 +175,24 @@ body {
             <option value="GetInvolved">Getting Involved</option>
             <option value="Gender">Gender</option>
             <option value="Income">Income Range</option>
-	          <option value="Ethnicity"> Ethnicity</option>
-            <option value="SubmissionDay">Submission Day of Week</option>
+	    <option value="Ethnicity"> Ethnicity</option>
+	    <option value="StoodOut">What Stood Out</option>
+	    <option value="SocialMediaPlatform">Social Media Platforms that Visitors Posted to</option>
+	    <option value="TopicInterests">What topics interest visitors</option>
+	    <option value="AdultAges">Ages of Adults that Visited</option>
+	    <option value="ChildAges">Ages of Children that Visited</option>
+	    <option value="Zip">Zip Codes of Visitors</option>
+            <!-- <option value="SubmissionDay">Submission Day of Week</option> -->
           </select><br>
         </form>
 
-        <div id="chart_container" style="height: 30em"></div>
-
+	<div>
+	<h3 id="list_title"></h3>
+	<ol id="responses" </ol>
+	</div>
+	    
+        <div id="chart_container" style="height: 30em">
+	</div>
 	<br>
 
 	<div id="other_container">
@@ -192,35 +203,53 @@ body {
         <script type="text/javascript">
           function update_chart() {
             // Remove the old chart.
-            document.getElementById('chart_container').innerHTML="";
-
+            let chart_container = document.getElementById('chart_container')
+	    chart_container.innerHTML="";
+	    document.getElementById("list_title").innerHTML = ""
+	    document.getElementById("responses").innerHTML = ""
+	      
             // Get the data for the selected option.
             let e = document.getElementById("question_select");
             let question_selected = e.options[e.selectedIndex].value
-              let sql_data = JSON.parse({{questions | tojson}})[question_selected]
+            let sql_data = JSON.parse({{questions | tojson}})[question_selected]
 
-	      let other_responses_dict = JSON.parse({{others | tojson}})
+	    let other_responses_dict = JSON.parse({{others | tojson}})
 	    let other_responses = null
 	    if (other_responses_dict.hasOwnProperty(question_selected)) {
 		other_responses = other_responses_dict[question_selected]; 
 	    }
-
+	    
+	      
 	    // Remove old list 
 	    let other_list =  document.getElementById("other_responses")
 	    other_list.innerHTML = "";
-	    var other_title = document.getElementById("other_title")
+	    let other_title = document.getElementById("other_title")
 	      other_title.innerHTML = "";
 	      
             let data = []
-            for (key in sql_data) {
-              data.push({x: key, value: sql_data[key] });
-            }
+	    switch (question_selected) {
+		case 'StoodOut':
+		case 'Disappointing':
+		case 'SocialMediaPlatform':
+		case 'TopicInterests':
+		case 'AdultAges':
+		case 'ChildAges':
+		case 'Zip':
+
+		data = sql_data; 
+		break;
+		
+	        default:
+		for (key in sql_data) {
+		    data.push({x: key, value: sql_data[key] });
+		}
+	    }
 
             // Create the appropriate chart.
             let chart = undefined;
 
               switch (question_selected) {
-  	            case 'FirstTime':
+  	        case 'FirstTime':
                 case 'Rating':
                 case 'AppreciationIncrease':
                 case 'KnewAbout':
@@ -231,21 +260,32 @@ body {
 
                     chart = pie_chart(data);
                     break;
+		  
+	        case 'StoodOut':
+		case 'Disappointing':
+		case 'SocialMediaPlatform':
+		case 'TopicInterests':
+		case 'AdultAges':
+		case 'ChildAges':
+		case 'Zip':
+		    list_chart(data, e.options[e.selectedIndex].innerHTML, chart_container);
+		    break;
                 default:
                     chart = bar_chart(data);
               }
-	      
-            // Add the title.
-            chart.title(e.options[e.selectedIndex])
 
-            // Display the chart.
-            chart.container('chart_container');
-            chart.draw();
+	      if (chart != undefined ) {
+		  // Add the title.
+		  chart.title(e.options[e.selectedIndex])
+		  
+		  // Display the chart.
+		  chart.container('chart_container');
+		  chart.draw();
+	      }
 
 	      
 	    // Display the "other" responses
-	      
-	    if (other_responses != null) {
+	    if (other_responses != null && other_responses.length !=0) {
 		other_title.innerHTML = ("Responses that chose the 'other' option:");
 		
 		for (var response of other_responses) {
@@ -253,13 +293,32 @@ body {
 		    var textnode = document.createTextNode(response);
 		    node.appendChild(textnode);
 		    other_list.appendChild(node)
-		     
+		    
 		}
-
+		
 	    }
           }
+	  
+	  function list_chart(data, title, container) {
+	      document.getElementById("list_title").innerHTML = title;
+	      reponses = document.getElementById("responses");
 
-
+	      if (data.length == 0)
+	      {
+		  let no_response_text =
+		      document.createTextNode("No responses for this question");
+		  container.appendChild(no_response_text);
+	      }
+	      
+	      for (var response of data)
+	      {
+		  var node = document.createElement("LI");
+		  var textnode = document.createTextNode(response);
+		  node.appendChild(textnode);
+		  responses.appendChild(node)
+	      }
+	  }
+	  
           function pie_chart(data) {
             // Create the chart.
             let chart = anychart.pie();

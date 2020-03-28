@@ -85,7 +85,7 @@ body {
   }
 }
 </style>
-	
+
 </head>
 
 
@@ -116,48 +116,49 @@ body {
   </div>
 
 	<br><br>
-	<form method="post" action="/data">
+	<form id="survey" method="post" action="/data">
+	  **Required
 	<div class='qa-group'>
 		<div class='question'>
-		  Is this your first time visiting Arlington Garden?
+		  Is this your first time visiting Arlington Garden?**
 		</div>
-	<input type="radio" name="first_time" value="yes" >Yes
+	<input type="radio" name="first_time" value="yes" required >Yes
 	<input type="radio" name="first_time" value="no" >No<br>
 	</div>
 
 	<div class='qa-group'>
 	<div class='question'>
-	  Why did you decide to come to Arlington Garden today? (Check all that apply)
+	  Why did you decide to come to Arlington Garden today?** (Check all that apply)
 	</div>
-	<input type="checkbox" name="attend_reason" value='learning about plants'>
+	<input  class="chk-come" type="checkbox" name="attend_reason" value='learning about plants'>
 		I am interested in learning about plants<br>
-	<input type="checkbox" name="attend_reason" value='saw an ad'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='saw an ad'>
 		I saw an advertisement<br>
-	<input type="checkbox" name="attend_reason" value='rest/relax'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='rest/relax'>
 		For rest and relaxation<br>
-	<input type="checkbox" name="attend_reason" value='children away from screens'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='children away from screens'>
 		To get my children away from screens<br>
-	<input type="checkbox" name="attend_reason" value='entertainment'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='entertainment'>
 		For entertainment<br>
-	<input type="checkbox" name="attend_reason" value='picnic'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='picnic'>
 		For a picnic<br>
-	<input type="checkbox" name="attend_reason" value='connect with nature'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='connect with nature'>
 		To connect with nature<br>
-	<input type="checkbox" name="attend_reason" value='bird watching'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='bird watching'>
 		For bird watching<br>
-	<input type="checkbox" name="attend_reason" value='from out of town'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='from out of town'>
 		I am visiting from out of town<br>
-	<input type="checkbox" name="attend_reason" value='free community resource'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='free community resource'>
 		I am looking for a free community resource<br>
-	<input type="checkbox" name="attend_reason" value='famliy activity'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='famliy activity'>
 		I wanted a family activity<br>
-	<input type="checkbox" name="attend_reason" value='photography'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='photography'>
 		For photography<br>
-	<input type="checkbox" name="attend_reason" value='bring a child'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='bring a child'>
 		To bring a child<br>
-	<input type="checkbox" name="attend_reason" value='friend brought me'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='friend brought me'>
 		A friend brought me<br>
-	<input type="checkbox" name="attend_reason" value='other'>
+	<input class="chk-come" type="checkbox" name="attend_reason" value='other'>
 		Other: <input type="text" name="attend_reason" class='textfield'><br>
 	</div>
 
@@ -177,68 +178,69 @@ body {
 
 	<div class='qa-group'>
 		<div class='question'>
-		  How would you rate your experience in Arlington Garden today? (1 is poor, 10 is excellent)<br> 
+		  How would you rate your experience in Arlington Garden today?** (1 is poor, 10 is excellent)<br> 
 		</div>
-	<select name="rating">
-		<option value=1>1</option>
-		<option value=2>2</option>
-		<option value=3>3</option>
-		<option value=4>4</option>
-		<option value=5>5</option>
-		<option value=6>6</option>
-		<option value=7>7</option>
-		<option value=8>8</option>
-		<option value=9>9</option>
-		<option value=10>10</option>
-	</select><br>
+		<select required name="rating">
+		  <option value="">Select</option>
+	          <option value=1>1</option>
+		  <option value=2>2</option>
+		  <option value=3>3</option>
+		  <option value=4>4</option>
+		  <option value=5>5</option>
+		  <option value=6>6</option>
+		  <option value=7>7</option>
+		  <option value=8>8</option>
+		  <option value=9>9</option>
+		  <option value=10>10</option>
+		</select><br>
 	</div>
 
 	<div class='qa-group'>
 		<div class='question'>
-		To what degree did today's visit increase your appreciation for water-conserving gardening?<br>
+		To what degree did today's visit increase your appreciation for water-conserving gardening?**<br>
 		</div>
-	<input type="radio" name="water_conserving" value="none">Not at all
+	<input type="radio" name="water_conserving" value="none" required>Not at all
 	<input type="radio" name="water_conserving" value="some">Somewhat
 	<input type="radio" name="water_conserving" value="high">To a high degree<br>
 	</div>
 
 	<div class='qa-group'>
 		<div class='question'>
-		Did you know about Arlington Garden before visiting today?<br>
+		Did you know about Arlington Garden before visiting today?**<br>
 		</div>
-	<input type="radio" name="knew_about" value="yes">Yes
+	<input type="radio" name="knew_about" value="yes" required>Yes
 	<input type="radio" name="knew_about" value="no">No<br>
 	</div>
 
 	<div class='qa-group'>
 		<div class='question'>
-		If YES, how did you hear about Arlington Garden? (Check all that apply)<br>
+		If YES, how did you hear about Arlington Garden?** (Check all that apply)<br>
 		</div>
-	<input type="checkbox" name=heard_about value="website">
+	<input class="chk-hear" type="checkbox" name=heard_about value="website">
 		Arlington Garden website<br>
-	<input type="checkbox" name=heard_about value="online">
+	<input class="chk-hear" type="checkbox" name=heard_about value="online">
 		Online search<br>
-	<input type="checkbox" name=heard_about value="newspaper">
+	<input class="chk-hear" type="checkbox" name=heard_about value="newspaper">
 		Newspaper<br>
-	<input type="checkbox" name=heard_about value="magazine">
+	<input class="chk-hear" type="checkbox" name=heard_about value="magazine">
 		Magazine<br>
-	<input type="checkbox" name=heard_about value="drove_by">
+	<input class="chk-hear" type="checkbox" name=heard_about value="drove_by">
 		Just drove by<br>
-	<input type="checkbox" name=heard_about value="word_of_mouth">
+	<input class="chk-hear" type="checkbox" name=heard_about value="word_of_mouth">
 		Word of mouth<br>
-	<input type="checkbox" name=heard_about value="social_media">
+	<input class="chk-hear" type="checkbox" name=heard_about value="social_media">
 		Social media<br>
-	<input type="checkbox" name=heard_about value="always_knew_about">
+	<input class="chk-hear" type="checkbox" name=heard_about value="always_knew_about">
 		I live in the area and have always known about it<br>
-	<input type="checkbox" name=heard_about value="other">
+	<input class="chk-hear" type="checkbox" name=heard_about value="other">
 		Other: <input type="text" name=heard_about class='textfield'><br>
 	</div>
 
 	<div class='qa-group'>
 		<div class='question'>
-		Did you post to social media during your visit (or will you)?<br>
+		Did you post to social media during your visit (or will you)?**<br>
 		</div>
-	<input type="radio" name="post_social" value="yes">Yes
+	<input type="radio" name="post_social" value="yes" required>Yes
 	<input type="radio" name="post_social" value="no">No<br>
 	</div>
 
@@ -258,29 +260,29 @@ body {
 
 	<div class='qa-group'>
 		<div class='question'>
-		Please select the ways in which you would like to be more involved with Arlington Garden. (Check all that apply)<br>
+		Please select the ways in which you would like to be more involved with Arlington Garden.** (Check all that apply)<br>
 		</div>
-	<input type="checkbox" name="get_involved" value="newsletter">
+	<input class="chk-involve" type="checkbox" name="get_involved" value="newsletter">
 		Signing up for the Arlington Garden newsletter<br>
-	<input type="checkbox" name=get_involved value="donation">
+	<input class="chk-involve" type="checkbox" name=get_involved value="donation">
 		Making a donation<br>
-	<input type="checkbox" name="get_involved" value="photography_permit">
+	<input class="chk-involve" type="checkbox" name="get_involved" value="photography_permit">
 		Supporting the garden by purchasing a photography permit<br>
-	<input type="checkbox" name="get_involved" value="volunteer">
+	<input class="chk-involve" type="checkbox" name="get_involved" value="volunteer">
 		Becoming a garden volunteer<br>
-	<input type="checkbox" name="get_involved" value="marmalade">
+	<input class="chk-involve" type="checkbox" name="get_involved" value="marmalade">
 		Supporting the garden by purchasing Arlington Garden marmalade<br>
-	<input type="checkbox" name="get_involved" value="facebook">
+	<input class="chk-involve" type="checkbox" name="get_involved" value="facebook">
 		Following us on Facebook<br>
-	<input type="checkbox" name="get_involved" value="other">
+	<input class="chk-involve" type="checkbox" name="get_involved" value="other">
 		Other: <input type="text" name="get_involved" class='textfield'><br>
 	</div>
 
 	<div class='qa-group'>
 		<div class='question'>
-		What is your gender?<br>
+		What is your gender?**<br>
 		</div>
-	<input type="radio" name="gender" value="male">Male
+	<input type="radio" name="gender" value="male" required>Male
 	<input type="radio" name="gender" value="female">Female
 	<input type="radio" name="gender" value="no answer">Prefer not to answer<br>
 	</div>
@@ -308,10 +310,10 @@ body {
 
 	<div class='qa-group'>
 		<div class='question'>
-		Which of the following best describes your household's annual income?<br>
+		Which of the following best describes your household's annual income?**<br>
 		</div>
-		<select name="income">
-		<option value="select">Select</option>
+		<select name="income" required>
+		<option value=''>Select</option>
 		<option value='below 20'>Less than $20,000</option>
 		<option value='20-40'>$20,000-$39,999</option>
 		<option value='40-60'>$40,000-$59,999</option>
@@ -324,19 +326,19 @@ body {
 
 	<div class='qa-group'>
 		<div class='question'>
-		Which of the following best describes your ethnicity? (Check all that apply)<br>
+		Which of the following best describes your ethnicity?** (Check all that apply)<br>
 		</div>
-	<input type="checkbox" name="ethnicity" value="caucasian">
+	<input class="chk-ethn" type="checkbox" name="ethnicity" value="caucasian">
 		Caucasian<br>
-	<input type="checkbox" name="ethnicity" value="african-american">
+	<input  class="chk-ethn" type="checkbox" name="ethnicity" value="african-american">
 		African-American<br>
-	<input type="checkbox" name="ethnicity" value="asian/pacific islander">
+	<input  class="chk-ethn" type="checkbox" name="ethnicity" value="asian/pacific islander">
 		Asian/Pacific Islander<br>
-	<input type="checkbox" name="ethnicity" value="hispanic/latino/chicano">
+	<input  class="chk-ethn" type="checkbox" name="ethnicity" value="hispanic/latino/chicano">
 		Hispanic/Latino/Chicano<br>
-	<input type="checkbox" name="ethnicity" value="native-american/alaskan native">
+	<input  class="chk-ethn" type="checkbox" name="ethnicity" value="native-american/alaskan native">
 		Native American/Alaskan Native<br>
-	<input type="checkbox" name="ethnicity" value="other">
+	<input  class="chk-ethn" type="checkbox" name="ethnicity" value="other">
 		Other: <input type="text" name="ethnicity" class='textfield'><br>
 	</div>
 
@@ -344,6 +346,57 @@ body {
 	<input type="submit" value="Submit" class='button'>
 	</div>
 	</form>
+
+
+
+	<script>
+
+	  (function() {
+	      function addValidation(checkboxes) {
+		  const firstCheckbox = getFirstCheckbox(checkboxes);
+		  
+		  if (firstCheckbox) {
+		      for (let i = 0; i < checkboxes.length; i++) {
+			  checkboxes[i].addEventListener('change', function() {
+                	      checkValidity(checkboxes, firstCheckbox);
+			  });
+		      }
+
+		      checkValidity(checkboxes, firstCheckbox);
+		  }
+	      }
+	      
+	      function getFirstCheckbox(checkboxes) {
+		  return checkboxes.length > 0 ? checkboxes[0] : null;
+	      }
+
+	      function isChecked(checkboxes) {
+		  for (let i = 0; i < checkboxes.length; i++) {
+		      if (checkboxes[i].checked) return true;
+		  }
+
+		  return false;
+	      }
+
+	      function checkValidity(checkboxes, firstCheckbox) {
+		  const errorMessage = !isChecked(checkboxes) ? 'At least one checkbox must be selected.' : '';
+		  firstCheckbox.setCustomValidity(errorMessage);
+	      }
+
+	      
+	      
+	      // Let's add a validation for the first group of checkboxes
+	      const chkEthn = document.getElementsByClassName('chk-ethn');
+	      addValidation(chkEthn);
+	      const chkCome = document.getElementsByClassName('chk-come');
+	      addValidation(chkCome);
+	      const chkHear = document.getElementsByClassName('chk-hear');
+	      addValidation(chkHear);
+	      const chkInvolve = document.getElementsByClassName('chk-involve');
+	      addValidation(chkInvolve);
+	  })();
+  
+</script>
 </body>
 
 </html>
